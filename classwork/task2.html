@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 2</title>
+  <link rel="stylesheet" href="css/style.min.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="testBlock hover">
+      <button class="iButton" id="mouseHover">1. Hover!</button>
+      <ul id="hoverResult" class="resultBlock">
+        <li class="red">Hovered!</li>
+        <li class="blue">Hovered!</li>
+        <li class="green">Hovered!</li>
+        <li class="orange">Hovered!</li>
+        <li class="purple">Hovered!</li>
+      </ul>
+    </div>
+
+    <div class="testBlock click">
+      <button class="iButton" id="mouseClick">2. Click for do things</button>
+      <div id="clickResult" class="resultBlock one two three four five six"></div>
+    </div>
+
+    <div class="testBlock random">
+      <button class="iButton" id="mouseLight">3. Click for turn on lights</button>
+      <div id="lightResult" class="resultBlock"></div>
+    </div>
+
+    <div class="testBlock keyboard">
+      <button class="iButton" id="keyboardButton">4. Press any key</button>
+      <div id="keyboardResult" class="resultBlock key-colors"></div>
+    </div>
+
+  </div>
+
+  <script>
+    /*
+
+      Поработаем немного с ивентами:
+      onmouseenter
+      onclick
+      oncontextmenu
+      onkeydown
+
+      Задание:
+      На каждую из конопок назначить действие которое будет выполнять следующее действие:
+      1.На ховер(onmouseenter) повесить обработчик который будет при каждом наведении
+        на кнопку будет выводить в блок результатом елемент li с текстом "hovered!"
+        у которого будет один из следующих класов:
+        red blue green orange purple
+
+      2.На кнопку клика(onclick) повесить обработчик который будет удалять классы с
+        блока с результатом по очереди в таком порядке:
+
+        six > two > three > four > one > five
+
+        после того как блок окажется пустым, добавить их в порядке возрастания
+
+        one > two > three ... > six
+
+      3. На кнопку клика (Light) повесить обработчик, который будет выводить в
+      блок с результатом (lightResult) поочередно один из цветов светофора:
+      Цикл: Off -> Red -> Yellow -> Green -> Off
+
+      4. На кнопку с обработчиком нажатия (onkeydown) повесить обработчик который будет:
+
+        - Выводить в блок с результатом(keyboardResult) число нажатий на любую из клавиш клавиатуры.
+        - Давать блоку (keyboardResult) классы, которые соотсветствуют числу кликов:
+
+        Н-р:
+        1 -> one
+        3 -> three
+        5 -> five
+        11 -> one one
+        115 -> one one five
+
+
+
+    */
+
+    let mouseHover = document.getElementById('mouseHover');
+    let mouseClick = document.getElementById('mouseClick');
+    let mouseLight = document.getElementById('mouseLight');
+    let keyboardButton = document.getElementById('keyboardButton');
+
+    //Task 1
+    let colorList = document.querySelectorAll('#hoverResult li');
+    for (let i = 0; i < colorList.length; i++) {
+      colorList[i].classList.toggle('hide');
+    }
+    mouseHover.onmouseenter = function(){
+      let indexRend = Math.floor(Math.random()*(colorList.length - 0)+ 0);
+      for (let i = 0; i < colorList.length; i++) {
+          colorList[i].classList.remove('visible');
+          colorList[i].classList.add('hide');
+      }
+          if(colorList[indexRend].classList.contains('hide')){
+            colorList[indexRend].classList.remove('hide');
+            colorList[indexRend].classList.add('visible');
+          }
+      console.log(indexRend);
+    }
+
+
+    //Task 2
+    let clickIndex = 0;
+    let direction = true;
+    let itemList = document.getElementById('clickResult').className;
+    let itemArray = itemList.split(' ').splice(1);
+
+    let deleteItemList = ["six", "two", "three", "four", "one", "five"];
+
+    mouseClick.onclick = function(){
+      let classItemList = document.getElementById('clickResult');
+
+      if(classItemList.classList.contains(deleteItemList[clickIndex]) && direction){
+        classItemList.classList.remove(deleteItemList[clickIndex]);
+
+        clickIndex++;
+
+        if(classItemList.classList.length <= 1){
+          direction = false;
+          clickIndex = 0;
+        }
+      }
+
+      if(direction === false){
+        classItemList.classList.toggle(itemArray[clickIndex]);
+        clickIndex++;
+
+        if(classItemList.classList.length === itemArray.length+1 ){
+          direction = true;
+          clickIndex = 0;
+        }
+      }
+    }
+
+    //Task 3
+    let lightItem = document.getElementById('lightResult');
+    let lightsList = ["Off", "Red", "Yellow", "Green"];
+    let count = 0;
+
+    mouseLight.onclick = function(e){
+      lightItem.innerText = `${lightsList[count]}`;
+      if(count === 0){
+        lightItem.style.background = 'none';
+      }else {
+        lightItem.style.background = `${lightsList[count]}`;
+      }
+      count++;
+
+      if(count > lightsList.length-1){
+        count = 0;
+      }
+    }
+
+
+    //Task 4
+    let counter = 0;
+    let keyboardResultItem = document.getElementById('keyboardResult');
+    let classNameItem = '';
+
+    keyboardButton.onkeydown = function(){
+      counter++;
+
+     let countItemList = counter.toString().split('');
+
+    function wordClass(i){
+      switch (i){
+        case 1:
+          return "one";
+          break;
+        case 2:
+          return "two";
+          break;
+        case 3:
+          return "three";
+          break;
+        case 4:
+          return "four";
+          break;
+        case 5:
+          return "five";
+          break;
+        case 6:
+          return "six";
+          break;
+        case 7:
+          return "seven";
+          break;
+        case 8:
+          return "eight";
+          break;
+        case 9:
+          return "nine";
+          break;
+        case 0:
+          return "zero";
+          break;
+      }
+    }
+      classNameItem = '';
+
+      for(let i = 0; i < countItemList.length; i++){
+       classNameItem += wordClass(parseInt(countItemList[i])) + ' ';
+      }
+
+      keyboardResultItem.className = `resultBlock key-colors ${classNameItem}`;
+      keyboardResultItem.innerHTML = `${counter} <br> ${classNameItem}`;
+    }
+  </script>
+
+
+
+
+  <style>
+    #keyboardResult{text-align: center;}
+    .hide{
+      display: none!important;
+    }
+    .visible{
+      display: flex!important;
+    }
+  </style>
+</body>
+</html>
