@@ -34,7 +34,7 @@
       onclick
 
       element.onclick = function(event) {
-        // do stuff ...
+        // do stuff ..
       }
 
   */
