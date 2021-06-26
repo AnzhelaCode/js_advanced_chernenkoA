@@ -41,7 +41,7 @@
 let buttonList = document.querySelectorAll('.showButton');
 let tabContainer = document.querySelectorAll("#tabContainer .tab");
 
-  buttonList.forEach(function(e,hideFun) {
+  buttonList.forEach(function(e) {
 
       e.addEventListener('click', function(item) {
 
