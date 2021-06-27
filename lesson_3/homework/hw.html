@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>asdas</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="wrap" id="wrap">
+        <h1>My Awsome Slider HomeWork</h1>
+
+        <div class="mySlider">
+          <header id="SliderControls">
+            <button id="PrevSilde">Prev</button>
+            <button id="NextSilde">Next</button>
+          </header>
+          <div id="slider">
+
+            <div class="loader">
+              <img src="./images/loader.gif" alt="loader">
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+    <script src="1.js"></script>
+  </body>
+
+  <style>
+    #slider{
+      position: relative;
+      width: fit-content;
+    }
+    .loader{
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hidden{
+      display: none;
+    }
+  </style>
+</html>
