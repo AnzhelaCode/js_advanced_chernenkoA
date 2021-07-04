@@ -92,7 +92,6 @@
         document.getElementById('submit').remove();
     }
         }
-
     });
 
 
