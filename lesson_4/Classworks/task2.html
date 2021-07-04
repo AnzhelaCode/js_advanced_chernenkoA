@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Form work1</title>
+  <script>
+    /*
+      Задание:
+        Сделать шиблонизатор элемента по:
+        Ширине input type=range
+        Цвету  input type=color
+        Высоте input type=number
+        Скругление углов input type=number
+        Margin input type=number
+
+      Свойсвта: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
+
+        + Сделать выборку цвета из рандомных 20 цветов которые выбираются из появившегося блока :
+        https://s3.envato.com/files/230412754/screenshots/1.png
+        За заготовку для рандома цвета использовать функцию из первых занятий.
+
+    */
+
+    window.addEventListener("load", function () {
+      let myWidth = document.getElementById('myWidth');
+      let result = document.getElementById('result');
+
+      //Ширине input type=range
+        myWidth.addEventListener('input', function(event){
+        result.style.width = event.target.value + 'px';
+        });
+
+
+      // Цвету  input type=color
+      let myColor = document.getElementById('myColor');
+      myColor.addEventListener('input', function(event){
+        result.style.background = `${event.target.value}`;
+      });
+
+
+      // Высоте input type=number
+      let myHeight = document.getElementById('myHeight');
+      myHeight.addEventListener('input', function(event){
+        result.style.height = `${event.target.value}px`;
+      });
+
+      // Скругление углов input type=number
+      let myBorderRadius = document.getElementById('myBorderRadius');
+      myBorderRadius.addEventListener('input', function(event){
+        result.style.borderRadius = `${event.target.value}px`;
+      });
+
+      // Margin input type=number
+      let myMargin = document.getElementById('myMargin');
+      myMargin.addEventListener('input', function(event){
+        result.style.margin = `${event.target.value}px`;
+        console.log( event.target.value );
+      });
+
+
+
+      let buttonSelectColor = document.createElement('button');
+      buttonSelectColor.innerHTML = "Select color";
+      result.after(buttonSelectColor);
+
+      let colorsRandWrapper = document.createElement('div');
+      colorsRandWrapper.id = 'colorsRandWrapper';
+
+
+
+      buttonSelectColor.addEventListener('click', colorsRand);
+      function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function colorGenerator(fun,min,max){
+        let r = +fun(min, max);
+        let g = +fun(min,max);
+        let b = +fun(min,max);
+        let colorArray = [r,g,b];
+
+        return colorArray;
+      }
+
+
+      function colorsRand(){
+
+        if(document.getElementById('colorsRandWrapper')){
+          document.getElementById('colorsRandWrapper').innerText = '';
+        }
+        buttonSelectColor.after(colorsRandWrapper);
+          for(let i = 0; i < 4; i++){
+            for(let k = 0; k < 5; k++){
+              let colorItem =  document.createElement('div');
+              colorItem.className = 'colorItem';
+              let colorRgb = colorGenerator(getRandomIntInclusive,0,255);
+              colorItem.style.cssText = `background:rgb(${colorRgb}) ;width:100px; height: 100px; border-radius: 50%;border:1px solid grey;display: inline-block;margin: 5px;`;
+              colorItem.setAttribute('data-color', `${colorRgb}`);
+              colorsRandWrapper.append(colorItem);
+            }
+
+            let br = document.createElement('br');
+            colorsRandWrapper.append(br);
+
+          }
+
+          let allcolorItems = document.querySelectorAll('.colorItem');
+        Array.from(allcolorItems);
+        allcolorItems.forEach((color) => color.addEventListener('click', function (){
+          document.getElementById('result').style.background = `rgb(${this.dataset['color']})`;
+        } ))
+
+      }
+    });
+
+
+  </script>
+
+  <style>
+    #test {
+      width: 400px;
+      height: 400px;
+      background: green;
+    }
+    button {
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="Templating">
+    <form>
+      <input type="range" id="myWidth" min="10" max="500" step="10"/>
+      <input type="color" id="myColor" min="10" max="500" step="10"/>
+      <input type="range" id="myHeight" min="10" max="500" step="10"/>
+      <input type="range" id="myBorderRadius" min="10" max="500" step="10"/>
+      <input type="range" id="myMargin" min="10" max="500" step="10"/>
+    </form>
+
+    <div class="TemplatingResult">
+      <div id="result" class="result"></div>
+    </div>
+  </div>
+
+
+  <style>
+    #colors{
+      width: 200px;
+
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .result{
+      width: 50px;
+      background: gray;
+      box-sizing: border-box;
+      padding: 10px;
+    }
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .circle{
+      width: 30px;
+      height: 30px;
+      background: #eee;
+      border-radius: 50%;
+    }
+  </style>
+</body>
+</html>

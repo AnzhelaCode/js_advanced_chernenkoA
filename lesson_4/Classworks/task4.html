@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Form work1</title>
+  <script>
+    /*
+      Задание:
+
+      1. Сгенерировать список стран в Select countries
+      2. При выборе страны генерировать еще один Select со списком
+        городов этой страны и вывести этот селект в блок result
+      3. При выборе города нужно случайно рандомить температуру от
+      -10 градусов до +40. Если температура
+
+        -10 до 0 то 'Солнечно' 'Легкий снегопад' 'Сильный снегопад'
+        0 до 30 то  'Солнечно' 'Дождь' 'Ветер' 'Сильный дождь'
+        30 до 40 то 'Солнечно' 'Засуха' 'Ветер'
+
+      4. Вывести сообщение на страничку
+        {Country}. В {City} {Weather} {Temperature} градусов.
+        Ukraine. В Kyiv Солнечно -10 градусов
+
+        + бонус добавить красивые картинки с погодой
+    */
+
+  </script>
+</head>
+<body>
+  <select id="countries"></select>
+  <div id="result"></div>
+
+  <script>
+    window.addEventListener("load", function () {
+      let countries = ['Ukraine', 'Poland', 'USA'];
+      let ukraineCity = ['Kyiv', 'Lviv', 'Odesa', 'Charkiv'];
+      let polandCity = ['Warszawa', 'Poznan', 'Krakow', 'Katowice'];
+      let usaCity = ['New York', 'Los Angeles', 'Las Vegas', 'Chicago'];
+
+      //добавили option к городам
+      let countryList = document.getElementById('countries');
+      let item = new Option("Choose a country","-",false,false);
+      countryList.append(item);
+      for(let i = 0; i < countries.length; i++ ){
+        item = new Option(countries[i],countries[i],false,false);
+        countryList.append(item);
+      }
+
+     //создание ногового select с option по городам
+      let arrayMainTown = [];
+      countryList.addEventListener("input", function (){
+        let result = document.getElementById('result');
+
+      if(document.getElementById('townList')){
+        document.getElementById('townList').remove();
+      }
+
+        if(this.value == 'Ukraine'){
+          arrayMainTown = ukraineCity;
+        }else if(this.value == 'Poland'){
+          arrayMainTown = polandCity;
+        }else {
+          arrayMainTown = usaCity;
+        }
+
+          let newSelect = document.createElement('select');
+          newSelect.id = 'townList';
+          result.append(newSelect);
+
+          let townItem = new Option("Choose a town","-",false,false);
+          newSelect.append(townItem);
+
+          for(let i = 0; i < arrayMainTown.length; i++ ){
+             townItem = new Option(arrayMainTown[i],arrayMainTown[i],false,false);
+            newSelect.append(townItem);
+          }
+
+        let getTownSelect = document.getElementById('townList');
+        let randTemperature;
+
+        //после выбора города ,выводим информацию в зависимости какая сгенерировалась температура
+        getTownSelect.addEventListener("input", function (e){
+
+          randTemperature = getRandomIntInclusive(-10, 40);
+
+          let cold = ['Солнечно', 'Легкий снегопад', 'Сильный снегопад'];
+          let coldImg = [
+                  "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cold-quotes-1575930075.jpg?crop=0.671xw:1.00xh;0.128xw,0&resize=640:*",
+            "https://s3-eu-west-1.amazonaws.com/iya-ghost-prod.inyourarea.co.uk/2018/02/Cold-Weather-Payments.jpeg",
+            "https://www.findingtheuniverse.com/wp-content/uploads/2017/01/Blue2Bhour2BFinland_by_Laurence2BNorah.jpg"
+          ];
+          let medium = ['Солнечно', 'Дождь', 'Ветер', 'Сильный дождь'];
+          let mediumImg = [
+                  "https://images.thestar.com/BGKYx6ENzXm401TywM6S5UeaXZ0=/1086x724/smart/filters:cb(1551148995495)/https://www.thestar.com/content/dam/thestar/news/canada/2019/02/25/canadians-can-expect-an-abrupt-transition-to-spring-says-the-weather-network/spring.jpg",
+                  "https://api.time.com/wp-content/uploads/2017/03/umbrella-rain-spring-weather.jpeg?quality=85&w=1200&h=628&crop=1",
+                  "https://www.cbc.ca/natureofthings/content/images/WCW_WIND_1920_DFarrell.jpg",
+                  "https://centralca.cdn-anvilcms.net/media/images/2019/01/02/images/Rainy_Weather_pix.max-1200x675.jpg"
+          ];
+          let extreme = ['Солнечно', 'Засуха', 'Ветер'];
+          let extremeImg = [
+                  "https://content.api.news/v3/images/bin/c46063c65bcba1e429b2d30a04d68802",
+                  "https://clarksvillenow.sagacom.com/files/2019/09/shutterstock_1152324746-1200x768.jpg",
+                  "https://www.clickorlando.com/resizer/sUcC-JImpl-efKMC_7_V662swC4=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65):fill(FFF)/cloudfront-us-east-1.images.arcpublishing.com/gmg/VOFO6H7MWFBJZA7L5KWMFC6AFA.jpg"
+          ];
+
+          let indexCold = getRandomIntInclusive(0, cold.length);
+          let indexMedium = getRandomIntInclusive(0, medium.length);
+          let indexExtreme = getRandomIntInclusive(0, extreme.length);
+
+          let img = document.createElement('img');
+          img.className = 'pictureItem';
+          img.style.cssText = 'width:250px;height:250px;';
+          console.log(indexExtreme);
+
+          if(randTemperature <= 0 ){
+
+            if(document.getElementById('information') || document.querySelector('img')){
+              document.getElementById('information').remove();
+              document.querySelector('img').remove();
+            }
+
+            img.src = coldImg[indexCold];
+            let information = document.createElement('div');
+            information.id = 'information';
+
+            let countryInfo = `${countryList.value}. В ${getTownSelect.value} ${cold[indexCold]} ${randTemperature} градусов.`;
+
+            result.after(information);
+            information.append(countryInfo);
+            information.after(img);
+
+          }else if(randTemperature > 0 && randTemperature <= 30){
+
+            if(document.getElementById('information') || document.querySelector('img')){
+              document.getElementById('information').remove();
+              document.querySelector('img').remove();
+            }
+
+            img.src = mediumImg[indexMedium];
+
+            let information = document.createElement('div');
+            information.id = 'information';
+
+            let countryInfo = `${countryList.value}. В ${getTownSelect.value} ${medium[indexMedium]} ${randTemperature} градусов.`;
+
+            result.after(information);
+            information.append(countryInfo);
+            information.after(img);
+
+          }else {
+
+            if(document.getElementById('information') || document.querySelector('img')){
+              document.getElementById('information').remove();
+              document.querySelector('img').remove();
+            }
+
+            img.src = extremeImg[indexExtreme];
+
+            let information = document.createElement('div');
+            information.id = 'information';
+
+            let countryInfo = `${countryList.value}. В ${getTownSelect.value} ${extreme[indexExtreme]} ${randTemperature} градусов.`;
+
+            result.after(information);
+            information.append(countryInfo);
+            information.after(img);
+          }
+        });
+
+
+      });
+
+      function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+
+    });
+  </script>
+  <style>
+    #information {
+      margin-bottom: 15px;
+    }
+    select {
+      margin: 15px;
+      min-width: 150px;
+      height: 30px;
+    }
+  </style>
+</body>
+</html>

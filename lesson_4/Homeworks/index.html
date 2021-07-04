@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form name="first">
+    <label for="name">Имя пользователя</label>
+    <input id="name" type="text" name="name" required minlength="2">
+
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" required minlength="3">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" required minlength="8" maxlength="16">
+
+    <label for="apple">Количество сьеденых яблок</label>
+    <input id="apple" type="number" name="apple" required minlength="1" >
+
+    <label for="appleThanks">Напиши спасибо за яблоки</label>
+    <input id="appleThanks" type="text" name="appleThanks" required >
+
+    <label for="agree">Согласен на обучение</label>
+    <input id="agree" type="checkbox" name="agree" required >
+
+    <button id="validate">Validate</button>
+
+</form>
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        max-width: 250px;
+        margin-left: 30px;
+    }
+    input {
+        margin-bottom: 15px;
+    }
+    #validate {
+        margin-bottom: 20px;
+    }
+</style>
+<script src="Task1.js"></script>
+</body>
+</html>

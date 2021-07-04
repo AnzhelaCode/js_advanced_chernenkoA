@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+  <script>
+    /*
+      Задание:
+        Сделать валидацию формы:
+        1. Логин / Пароль не может быть пустым
+        2. Пароли должны совпадть
+        3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+        + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                - которое прошло - подсвечивать зеленым.
+    */
+  </script>
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' placeholder="Ваш пароль" />
+    <input type="password" name='pas2' placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled/>
+  </form>
+  <script>
+
+      let getForm = document.getElementById('MyValidateForm');
+      let getLogin = getForm.login;
+      let getPassword = getForm.pas1;
+      let getPasswordConfirm = getForm.pas2;
+      let getSubmit = document.getElementById('submit');
+      let getAgreeBtn = document.getElementById('agree');
+      let submitBtn = document.getElementById('submit');
+
+       getLogin.addEventListener("input", validFunction);
+       getPassword.addEventListener("input", validFunction);
+       getPasswordConfirm.addEventListener("input", validFunction);
+       getAgreeBtn.addEventListener("click", agreeFunction)
+       getSubmit.addEventListener("click", submitFunction);
+
+      function agreeFunction(){
+        if(getAgreeBtn.checked){
+          submitBtn.removeAttribute('disabled');
+          getAgreeBtn.setAttribute("data-valid","true");
+        }else {
+          submitBtn.setAttribute('disabled', 'true');
+          getAgreeBtn.setAttribute("data-valid","false");
+        }
+      }
+
+
+      function validFunction(){
+        validPassword(getPassword, getPasswordConfirm);
+          if(this.value.length < 4){
+            this.style.cssText = 'border:2px solid red;background:rgba(250,2,2,0.2)';
+            this.setAttribute("data-valid","false");
+          }else{
+            this.style.cssText = 'border-color:transparent;background:rgba(2,250,48,0.2)';
+            this.setAttribute("data-valid","true");
+          }
+      }
+
+
+      function validPassword(pass1, pass2){
+        let message = document.createElement('h3');
+        let getH3 = document.querySelector('h3');
+        if(getH3){
+          getH3.remove();
+        }
+        if(pass1.value !== pass2.value){
+          message.innerHTML = 'Пароли не совпадают!';
+          message.style.cssText = 'color:red;background:yellow;width:fit-content;display:flex;';
+          getForm.after(message);
+          getPassword.setAttribute("data-valid","false");
+          getPasswordConfirm.setAttribute("data-valid","false");
+        }else {
+        if(getH3){
+          getH3.remove();
+          getPassword.setAttribute("data-valid","true");
+          getPasswordConfirm.setAttribute("data-valid","true");
+        }
+        }
+      }
+
+      function submitFunction(event){
+        event.preventDefault();
+
+        let getValidAttr = getForm.elements;
+        let trueArray = [];
+        let message = document.createElement('h3');
+        let getH3 = document.querySelector('h3');
+
+        for(let i = 0; i < getValidAttr.length-1; i++){
+          let validItem =  getValidAttr[i].dataset;
+
+          if(validItem['valid'] == "false"){
+            trueArray.push(validItem['valid']);
+          }else {
+            trueArray.push(validItem['valid']);
+          }
+        }
+
+        //отображение сообщения об успешной/не отправке отправке формы
+        trueArray.every(function (item){
+          if(item == 'true'){
+            if(getH3){
+              getH3.remove();
+            }
+            message.innerHTML = 'Форма отправлена!';
+            message.style.cssText = 'color:green;background:rgba(2,250,48,0.2);width:fit-content;';
+            getForm.after(message);
+          }else {
+            if(getH3){
+              getH3.remove();
+            }
+            message.innerHTML = 'Форма не отправлена!Не корректно внесены данные проверьте';
+            message.style.cssText = 'color:red;background:yellow;width:fit-content;display:flex;';
+            getForm.after(message);
+          }
+        })
+      }
+
+
+
+
+
+
+  </script>
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .error{
+        border: 1px solid red;
+    }
+    .OK{
+        border: 1px solid green;
+    }
+  </style>
+
+</body>
+</html>
