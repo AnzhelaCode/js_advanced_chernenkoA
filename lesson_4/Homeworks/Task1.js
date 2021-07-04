@@ -46,13 +46,9 @@
 
     let formItem = [...document.forms['first'].elements];
     let form = document.forms['first'];
-    let name = document.getElementById('name');
-    let email = document.getElementById('email');
-
-    let agree = document.getElementById('agree');
-    let apple = document.getElementById('apple');
 
     let validateBtn = document.getElementById('validate');
+
     validateBtn.addEventListener('click',function (e){
         e.preventDefault();
         let report = form.reportValidity();
@@ -65,45 +61,45 @@
 
             validateBtn.after(submitBtn);
         }else {
-            if ( !agree.checked  ){
-                agree.setCustomValidity("Необразованные живут дольше! Хорошо подумай!");
-            }
-            else {
-                agree.setCustomValidity('');
-            }
-            if(document.getElementById('submit')){
-                document.getElementById('submit').remove();
-            }
 
+    for(let i = 0; i < formItem.length; i++){
+
+        if(formItem[i].validity.valueMissing && formItem[i].name === 'name'){
+            formItem[i].setCustomValidity("Как тебя зовут дружище?!");
+
+        }else if(formItem[i].validity.valueMissing && formItem[i].name === 'email'){
+            formItem[i].setCustomValidity("Ну и зря, не получишь бандероль с яблоками!");
+
+        }else if(formItem[i].validity.valueMissing && formItem[i].name === 'password'){
+            formItem[i].setCustomValidity("Я никому не скажу наш секрет");
+
+        }else if(formItem[i].name === 'appleThanks' && formItem[i].value !== "Спасибо"){
+            formItem[i].setCustomValidity("Фу, неблагодарный(-ая)!");
+
+        }else if(formItem[i].name === 'apple' && formItem[i].value <= 0){
+            formItem[i].setCustomValidity("Ну хоть покушай немного... Яблочки вкусные");
+
+        }else if(formItem[i].name === 'agree' && !formItem[i].checked){
+            formItem[i].setCustomValidity("Необразованные живут дольше! Хорошо подумай!");
+        }
+        else {
+            formItem[i].setCustomValidity('');
         }
 
+    }
 
-    })
+    if(document.getElementById('submit')){
+        document.getElementById('submit').remove();
+    }
+        }
+
+    });
 
 
-    formItem.forEach(function (e){
-        e.addEventListener('input', function (){
-            if ( this.validity.tooShort  ){
-                if(this.getAttribute("name") == 'name'){
-                    this.setCustomValidity("Как тебя зовут дружище?!");
-                }else if(this.getAttribute("name") == 'email'){
-                    this.setCustomValidity("Ну и зря, не получишь бандероль с яблоками!");
-                }else if (this.getAttribute("name") == 'password'){
-                    this.setCustomValidity("Я никому не скажу наш секрет");
-                }
 
-            }else if (this.getAttribute("name") === 'appleThanks' && this.value !== "Cпасибо"){
-                this.setCustomValidity("Фу, неблагодарный(-ая)!");
-            }else if (this.getAttribute("name") === 'apple' && this.value <= 0){
-                this.setCustomValidity("Ну хоть покушай немного... Яблочки вкусные");
-            }
 
-            else {
-                this.setCustomValidity('');
-            }
 
-        })
-    })
+
 
 
 
