@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+
+</head>
+<body>
+  <div class="wrap">
+      <div class="assigned">
+        <form class="ObjForm">
+            <input name="key" id="key" placeholder="Enter your key"/>
+            <input name="value" id="value" placeholder="Enter your value"/>
+            <button type="submit" id="sendBtn">Send</button>
+        </form>
+        <div class="createResult">
+          <header>
+            Created Object
+          </header>
+          <div class="createdObj" id="firstObj">
+          </div>
+        </div>
+      </div>
+
+      <div class="assigned">
+        <form class="ObjForm">
+            <input name="key" id="key2" placeholder="Enter your key"/>
+            <input name="value" id="value2" placeholder="Enter your value"/>
+            <button type="submit" id="send2">Send</button>
+          </form>
+          <div class="createResult">
+            <header>
+              Created Object
+            </header>
+            <div class="createdObj" id="createdObj">
+
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="resultBlock">
+       <button id="combine">Combine Objects!</button>
+      <h3> Result: </h3>
+      <div id="result"></div>
+    </div>
+
+  <script>
+      /*
+        Задание:
+  1. написать визуальный конструктор обектов используя значение key-value, которые вводятся в
+      соответствующие поля в форме.
+
+          2. Каждый созданый обьект выводить в тег code после добавления каждого
+          нового поля. Т.е мы должны визуально видить в каком состоянии наши обьекты
+          сейчас
+
+          3. По нажатию кнопки Combine Objects! два обьекта должны обьедениться
+          используя метод Object.assing или spread operator и вывестись на стринчку.
+
+      */
+
+
+
+      let sendBtn = document.getElementById('sendBtn');
+      sendBtn.addEventListener('click', sendFun);
+
+      let sendBtnSecond = document.getElementById('send2');
+      sendBtnSecond.addEventListener('click', sendFunSecond);
+
+      let combineBtn = document.getElementById('combine');
+      combineBtn.addEventListener('click', combineBtnFun);
+
+      let objItem1 = {};
+      let objItem2 = {};
+
+
+      function sendFun(event){
+          event.preventDefault();
+
+          let key = document.getElementById('key').value ;
+          let value = document.getElementById('value').value ;
+          let firstObj = document.getElementById('firstObj');
+          let codeBlock = document.createElement('code');
+          codeBlock.innerHTML = `
+          ${key}:${value},
+          `;
+          firstObj.append(codeBlock);
+          objItem1[`${key}`] = value;
+
+      }
+
+      function sendFunSecond(event){
+          event.preventDefault();
+
+          let key = document.getElementById('key2').value ;
+          let value = document.getElementById('value2').value ;
+          let createdObj = document.getElementById('createdObj');
+          let codeBlock = document.createElement('code');
+          codeBlock.innerHTML = `
+          ${key}:${value},
+          `;
+          createdObj.append(codeBlock);
+          objItem2[`${key}`] = value;
+
+
+      }
+
+      function combineBtnFun(){
+          let commonResult = Object.assign({}, objItem1,objItem2);
+        let resultBlock = document.getElementById('result');
+          resultBlock.innerHTML = '';
+          for(let key in commonResult){
+              let info = document.createElement('span')
+              info.innerHTML = `${key}:${commonResult[key]},<br>`;
+              resultBlock.append(info);
+              console.log(commonResult[key]);
+          }
+
+
+
+      }
+  </script>
+      <style>
+        .wrap{
+          width: 800px;
+          display: flex;
+        }
+        .ObjForm,
+        .resultBlock{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          box-sizing: border-box;
+          padding: 10px 20px;
+        }
+
+        .assigned{
+          width: 300px;
+          display: flex;
+        }
+        .createResult header{
+          font-weight: 700;
+        }
+      </style>
+</body>
+</html>

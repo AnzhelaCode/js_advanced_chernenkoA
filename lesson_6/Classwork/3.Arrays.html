@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div class="starsWrapper">
+    <select name="stars" id="stars" class="item"></select>
+
+    <label for="duration">Duration: 100,136,150,240</label>
+    <input id="duration" type="number" class="item">
+    <button id="getResult" class="item">Result</button>
+    <div id="result"></div>
+</div>
+
+<script>
+
+    const ITEA_COURSES = ["Курс HTML & CSS", "JavaScript базовый курс", "JavaScript продвинутый курс", "JavaScript Professional", "Angular 2.4 (базовый)", "Angular 2.4 (продвинутый)", "React.js"];
+
+    // //1. При помощи методов изложеных ниже, переформатировать ITEA_COURSES в массив который содержит длину строк каждого из элементов.
+
+    //     let newIteaCourses = ITEA_COURSES.map(function (item, index){
+    //         return item.length;
+    //     });
+    //     console.log(newIteaCourses);
+
+
+    // 2. Отфильтровать массив ITEA_COURSES по алфавиту.
+    // + Бонусный бал. Вывести на страничку списком
+
+    // const sortItem =  ITEA_COURSES.sort();
+    // let wrapper = document.createElement('div');
+    //
+    // wrapper.className = 'wrapper';
+    //
+    // wrapper.innerHTML = `<ul>
+    //     ${sortItem.map((item => `<li>${item}</li>`)).join('')}
+    // </ul>`;
+    //
+    // document.body.append(wrapper);
+
+
+    // 3. Реализация функции поиска по массиву ITEA_COURSES.
+    // + Бонусный бал. Вывести на страничку инпут и кнопку по которой будет срабатывать поиск.
+    // let input = document.createElement('input');
+    // let button = document.createElement('button');
+    // button.innerHTML = 'Search';
+    //
+    // document.querySelector('.wrapper').after(input);
+    // let getInput = document.querySelector('input');
+    // getInput.after(button);
+    //
+    // let getButton = document.querySelector('button');
+    //
+    // let resultContent = document.createElement('div');
+    // resultContent.className = 'resultContent';
+    // getButton.after(resultContent);
+    //
+    // const capitalizeFirstLetter = ([ first, ...rest ], locale = navigator.language) =>
+    //     first.toLocaleUpperCase(locale) + rest.join('')
+    //
+    // button.addEventListener('click', function (){
+    //     let inputValue = getInput.value;
+    //     resultContent.innerHTML = '';
+    //
+    //  sortItem.filter(function (item,index){
+    //       let itemArr = item.split(' ');
+    //         itemArr.some(function (elem,position){
+    //             if(elem == inputValue || elem == capitalizeFirstLetter(inputValue)){
+    //                let itemInfo = document.createElement('li');
+    //                 itemInfo.innerHTML = `${item}<br>`;
+    //                 resultContent.append(itemInfo);
+    //             }
+    //         })
+    //     });
+    //
+    // });
+
+
+
+    /*
+      Задание 2:
+      Написать фильтр массива по:
+      Актеру, продолжительности
+
+      Бонус:
+        Сделать графическую оболочку для программы:
+        - Селект со списком актеров
+        - инпут с продолжительностью
+        - Результат в виде списка фильмов
+    */
+
+    let stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom','Ewan McGregor',' Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+    let movies = [
+        {
+            name: "Lord of the Rigs",
+            duration: 240,
+            starring: [ 'Elijah Wood', 'Ian McKellen', 'Orlando Bloom']
+        },
+        {
+            name: "Star Wars: Episode I - The Phantom Menace",
+            duration: 136,
+            starring: [ 'Ewan McGregor',' Liam Neeson', 'Natalie Portman']
+        },
+        {
+            name: "Fargo",
+            duration: 100,
+            starring: [ 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+        },
+        {
+            name: "Zoe",
+            duration: 100,
+            starring: [ 'Ewan McGregor']
+        },
+        {
+            name: "V for Vendetta",
+            duration: 150,
+            starring: [ 'Hugo Weaving', 'Natalie Portman', 'Rupert Graves']
+        }
+    ];
+
+    let selectStars = document.getElementById('stars');
+    let option = new Option("Choose a star","-",false,false);
+    selectStars.append(option);
+
+    for(let i = 0; i < stars.length; i++ ){
+        option = new Option(stars[i],stars[i],false,false);
+        selectStars.append(option);
+    }
+
+    let button = document.getElementById('getResult');
+    button.addEventListener('click', function (){
+
+        let selectValue = document.getElementById('stars').value;
+        let inputValue = parseInt(document.getElementById('duration').value);
+        let result = document.getElementById('result');
+
+        result.innerHTML = '';
+
+        movies.filter(function (item, index){
+
+            for(let i = 0; i < item.starring.length; i++){
+
+                if(item.starring[i] == selectValue && item.duration == inputValue){
+
+                    let title = document.createElement('span');
+                    title.innerHTML = `Film: ${item.name}<br>`;
+
+                    let durationFilm = document.createElement('span');
+                    durationFilm.innerHTML = `Duration: ${item.duration} min<br>`;
+
+                    let starName = document.createElement('span');
+                    starName.innerHTML = `Actor: ${selectValue}<br>`;
+
+                    result.append(title);
+                    result.append(durationFilm);
+                    result.append(starName);
+
+                    let hr = document.createElement('hr');
+                    result.append(hr);
+                }
+
+            }
+
+
+        })
+
+    });
+
+</script>
+
+<style>
+    div#result {
+        margin-top: 30px;
+        font-size: 22px;
+        line-height: 32px;
+        width: fit-content;
+        padding: 15px;
+    }
+    #duration{
+        margin-top: 0;
+    }
+    label{
+        margin-top: 15px;
+    }
+    .item{
+        width: 250px;
+        height: 44px;
+        margin-top: 15px;
+    }
+    .starsWrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    input {
+        background: rgba(0,0,0,0.1);
+    }
+    .resultContent {
+        margin-top: 25px;
+        color: chocolate;
+        font-size: 22px;
+        line-height: 32px;
+    }
+</style>
+</body>
+</html>
+
+
+
+

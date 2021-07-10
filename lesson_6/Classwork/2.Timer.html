@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Homework</title>
+</head>
+<body>
+
+<div class="wrapper">
+    <span id="counter">0</span>
+    <div class="buttonListWrapper">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="restart">Restart</button>
+        <button id="revert">Revert count</button>
+    </div>
+
+    <div class="hourHand">
+        <div class="land"></div>
+        <div id="hand">
+            <div class="handSecond"></div>
+        </div>
+    </div>
+</div>
+<!--
+  Создайте счетчик секунд, который начинает отчет с 1 и заканчивается на 30,
+  также добавьте кнопки который останавливают отчет, и запускают его заново и добавьте кнопку обнуляющую отчет.
+  Также попробуйте изменить код так чтобы отчет начиналься с 30 и заканчивалься на 1.
+
+ + бонус: Сделать так что бы на каждый тик (1с/2c) менялся цвет фона. Можно на основе генератора случайного цвета с предудущих уроков.
+ + бонус: Сделать визуализацию стрелки которая идет по кругу
+      document.getElementById("myDIV").style.transform = "rotate(7deg)";
+
+ + бонус: Сделать кнопки которые выбирают режим в котором идет отсчет - обычный от 0 до 30 или реверсивный от 30 до 0
+-->
+      <script>
+let start = document.getElementById('start');
+let stop = document.getElementById('stop');
+let restart = document.getElementById('restart');
+let revert = document.getElementById('revert');
+
+let counter = document.getElementById('counter');
+let counterValue = parseInt(counter.innerHTML) ;
+let timer = null;
+
+start.addEventListener('click', startCount);
+stop.addEventListener('click', stopCount);
+restart.addEventListener('click', restartCount);
+revert.addEventListener('click', revertCount);
+
+let index = counterValue;
+let deg = 0;
+function startCount(){
+    clearTimeout( timer );
+    timer = setTimeout(
+        function(){
+            index++;
+        if(index<= 30){
+            counter.innerHTML = `${index}`;
+            let rgbList = colorGenerator(getRandomIntInclusive,0,255);
+            document.body.style.background = `rgb(${rgbList[0]},${rgbList[1]},${rgbList[2]})`;
+            deg+=7;
+            document.getElementById("hand").style.transform = `rotate(${deg}deg)`;
+
+            return startCount(index);
+        }else {
+            console.log("more then 30");
+        }
+
+        },
+        1000);
+}
+
+function stopCount(){
+    clearTimeout( timer );
+}
+
+function restartCount(){
+    clearTimeout( timer );
+    index = 0;
+    deg = -7;
+    startCount();
+}
+
+function revertCount(){
+    clearTimeout( timer );
+    timer = setTimeout(
+        function(){
+            index--;
+            if(index >= 0){
+                counter.innerHTML = `${index}`;
+                let rgbList = colorGenerator(getRandomIntInclusive,0,255);
+                document.body.style.background = `rgb(${rgbList[0]},${rgbList[1]},${rgbList[2]})`;
+
+                deg-=7;
+                document.getElementById("hand").style.transform = `rotate(${deg}deg)`;
+                return revertCount(index);
+            }else {
+                console.log("more less 0");
+            }
+
+
+        },
+        1000);
+}
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+function colorGenerator(fun,min,max){
+    let r = +fun(min, max);
+    let g = +fun(min,max);
+    let b = +fun(min,max);
+    let colorArray = [r,g,b];
+
+    return colorArray;
+}
+      </script>
+
+<style>
+    .handSecond {
+        width: 2px;
+        height: 50%;
+        background: red;
+    }
+    .hourHand {
+        width: 450px;
+        height: 450px;
+        border: 2px solid black;
+        margin-top: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    #hand {
+        width: 2px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: -1;
+    }
+
+    .land{
+        width: 50px;
+        height: 50px;
+        background: black;
+        border-radius: 50%;
+    }
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    button{
+        width: 150px;
+        margin-right: 15px;
+    }
+    .buttonListWrapper{
+        margin-top: 20px;
+        display: flex;
+    }
+</style>
+</body>
+</html>
