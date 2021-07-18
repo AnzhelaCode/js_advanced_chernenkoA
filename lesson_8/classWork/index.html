@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form id="formGet"  action="#">
+    <input name="name" id="name" placeholder="name"/>
+    <input name="age" id="age" placeholder="age"/>
+    <input name="password" id="password" placeholder="password"/>
+    <button id="_button">Send Data</button>
+</form>
+
+<div class="wrapper">
+    <form id="parseJson"  action="#">
+        <label for="jsonString">Enter Json string</label>
+        <input name="jsonString" id="jsonString" placeholder="String here"/>
+
+        <button id="buttonParseJson">Send Data</button>
+    </form>
+</div>
+
+<div id="userInfo"></div>
+<style>
+    .wrapper {
+        margin-top: 120px;
+        max-width: 350px;
+    }
+    #userInfo {
+        margin-top: 80px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        max-width: 350px;
+    }
+    input{
+        margin-bottom: 20px;
+    }
+    div#userInfo ul li {
+        list-style: none;
+    }
+    #userInfo span {
+        padding: 10px 15px;
+    }
+    #userInfo li {
+        display: flex;
+    }
+    .registerDateBtn,.addressBtn {
+        border: 1px solid gainsboro;
+        background: aliceblue;
+        cursor: pointer;
+    }
+</style>
+<!--<script src="./1_json.js"></script>-->
+<!--<script src="./2_fetch.js"></script>-->
+<script src="./3_async.js"></script>
+</body>
+</html>
