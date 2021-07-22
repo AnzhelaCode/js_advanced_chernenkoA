@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+  <script>
+    /*
+      Задание:
+        Сделать валидацию формы:
+        1. Логин / Пароль не может быть пустым
+        2. то поле, которое не прошло валидацию подсвечивать красным, которое прошло - подсвечивать зеленым.
+        3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+    */
+  </script>
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' id="pas1" placeholder="Ваш пароль" />
+    <input type="password" name='pas2' id="pas2" placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" name="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled/>
+  </form>
+  <script>
+    let form = document.getElementById('MyValidateForm');
+    let submitBtn = document.getElementById('submit');
+    let agree = document.getElementById('agree');
+
+    agree.addEventListener("input", function (){
+      if(form.agree.checked){
+        submitBtn.removeAttribute('disabled');
+      }else {
+        submitBtn.setAttribute("disabled","true");
+      }
+    });
+
+    let formElements = form.elements;
+    for(let i = 0; i <= 3;i++ ){
+      formElements[i].addEventListener('input', function (){
+        if(formElements[i].value == ""){
+          formElements[i].style.border = '2px solid red';
+        }else {
+          formElements[i].style.border = '2px solid green';
+        }
+      });
+    }
+
+    form.addEventListener('submit', function (e){
+      e.preventDefault();
+
+      if(  form.pas1.value == "" || form.pas2.value == "" || form.login.value == ""){
+        if(form.login){
+          form.login.style.border = '2px solid red';
+        }
+        if(form.pas1){
+          form.pas1.style.border = '2px solid red';
+        }
+        if(form.pas2){
+          form.pas2.style.border = '2px solid red';
+        }
+
+      }else {
+        if(form.login){
+          form.login.style.border = '2px solid green';
+        }
+        if(form.pas1){
+          form.pas1.style.border = '2px solid green';
+        }
+        if(form.pas2){
+          form.pas2.style.border = '2px solid green';
+        }
+
+      }
+      if(form.pas1.value !== form.pas2.value ){
+        form.pas1.style.border = '2px solid red';
+        form.pas2.style.border = '2px solid red';
+      }else {
+        form.pas1.style.border = '2px solid green';
+        form.pas2.style.border = '2px solid green';
+      }
+    });
+  </script>
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .error{
+        border: 1px solid red;
+    }
+    .OK{
+        border: 1px solid green;
+    }
+  </style>
+</body>
+</html>

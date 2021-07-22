@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="userInfo"></div>
+    <!-- 
+    1. При помощи fetch получить данные:
+     http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2
+    2. Полученый ответ преобразовать в json вызвав метод .json с объекта ответа
+    3. На основе данных посторить табличку
+
+    | index | company | email | phone | address |
+
+    4. создать кнопу которая скрывает показывает address
+     -->
+    <script>
+        async function getCompanyList(){
+            let getFirms = await fetch(" http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2");
+            let firmList = await getFirms.json();
+
+            return firmList;
+        }
+
+        let corporation = getCompanyList();
+        corporation.then(data => {
+            let wrapper = document.getElementById('userInfo');
+
+            let ul = document.createElement('ul');
+            wrapper.append(ul);
+
+            data.map(function (item,index, arr){
+                let li = document.createElement('li');
+                ul.append(li);
+                li.innerHTML = `<span id="${index}">${index}</span> | <span>${item.company}</span> | <span>${item.email}</span> | <span>${item.phone}</span> |  <span class="addressBtn">Show Address</span>`;
+
+            })
+
+
+            let addressBtnList = document.querySelectorAll('.addressBtn');
+            addressBtnList.forEach(el => el.addEventListener('click', addressInfo));
+
+
+            function clearInfo(){
+                addressBtnList.forEach(item => {
+                    item.innerHTML = "Show Address";
+                });
+
+            }
+
+
+            function addressInfo(){
+                clearInfo();
+                let itemInfo = this.parentElement;
+                let spanList = itemInfo.querySelectorAll('span');
+
+                for(let i = 0; i < spanList.length; i++){
+                    if(spanList[i].getAttribute('id') !== null){
+                        let index = spanList[i].getAttribute('id');
+
+                        let address = data[index].address;
+                        this.innerHTML = `${address}`;
+
+                    }
+
+                }
+            }
+
+
+        })
+    </script>
+</body>
+</html>
